@@ -16,20 +16,29 @@ const resolvers = {
     feed: () => links
   },
   Mutation: {
-    create: (parent, args) => {
+    createLink: (parent, args) => {
       const link = {
         id: `link-${idCount++}`,
         description: args.description,
         url: args.url
       };
       links.push(link);
-      return link
+      return link;
+    },
+    updateLink: (parent, args) => {
+      const link = links[parseInt(args.id.split('-')[1])];
+      if (args.url) link.url = args.url;
+      if (args.description) link.description = args.description
+      return link;
+    },
+    deleteLink: (parent, args) => {
+      delete links[parseInt(args.id.split('-')[1])];
     }
   }
 };
 
 const server = new GraphQLServer({
-  typeDefs: './schema.graphql',
+  typeDefs: './src/schema.graphql',
   resolvers
 });
 
