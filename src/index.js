@@ -4,7 +4,8 @@ const { prisma } = require('./generated/prisma-client');
 const resolvers = {
   Query: {
     info: () => `Behold, the graphql's fury`,
-    feed: (parent, args, context, info) => context.prisma.links()
+    feed: (parent, args, context, info) => context.prisma.links(),
+    link: (parent, args, context, info) => context.prisma.link({ id: args.id })
   },
   Mutation: {
     createLink: (parent, args, context) =>
